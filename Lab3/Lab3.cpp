@@ -9,7 +9,7 @@ using namespace std;
 #pragma region Task functions 1-5.
 //Task.1
 int strlen(char *s)
-{
+{//Finds the length of a character array
 	int len = 0;
 	for (int i = 0; *(s+i) != 0; i++)
 		len++;
@@ -17,26 +17,26 @@ int strlen(char *s)
 }
 
 //Task.2
-int average_salary(const int **p, int n)//pointer array input and int number of employees
-{
+int average_salary(const int **p, int n)
+{//Calculates the average salary for a number of employees
 	int sum = 0;
 	int i = 0;
-	while (i<n)
+	while (i<n)	//adds each salary to sum
 	{
 		sum += *p[i];
 		i++;
 	}
-	return sum/i;
+	return sum/n; //returns the sum diveided by the number of employees
 }
 
 //Task.3
 void swap_sort(int*a, int*b, int*c, bool ascending)
-{	//Swaps between the given integers a,b,c to order them in either ascending or descending order.
+{	//reassigns the given integers a,b,c in either ascending or descending order.
 	int aTemp = *a;
 	int bTemp = *b;
-	if (ascending)
+	if (ascending)//ascending
 	{
-		for (int i = 0; i < 2; i++)		//ascending
+		for (int i = 0; i < 2; i++)
 		{
 			if (*a > *b)
 			{
@@ -50,9 +50,9 @@ void swap_sort(int*a, int*b, int*c, bool ascending)
 			}
 		}
 	}
-	else
+	else//descending
 	{
-		for (int i = 0; i < 2; i++)		//descending
+		for (int i = 0; i < 2; i++)
 		{
 			if (*a < *b)
 			{
@@ -109,10 +109,10 @@ void swap_sort_ptr_addr(int** a, int** b, int** c, bool ascending)
 
 //Task.5
 void replace_chars(char* str, char search, char replacement)
-{
-	for (int i = 0; i < strlen(str); i++)
+{//Replaces the searched character in a character array, with a given replacement character.
+	for (int i = 0; i < strlen(str); i++)//loop through each element in array
 	{
-		if (*(str + i) == search)
+		if (*(str + i) == search)//if match, replace.
 			*(str + i) = replacement;
 	}
 }
@@ -122,7 +122,7 @@ void replace_chars(char* str, char search, char replacement)
 #pragma region Task functions 6.
 //Task.6.1.database initialize
 void database_initialize(vector<string> *v)
-{
+{//removes all data from database.
 	cout << "This will erase all names from the current database. Proceed?(y/n) : ";
 	char c;
 	cin >> c;
@@ -132,13 +132,13 @@ void database_initialize(vector<string> *v)
 
 //Task.6.2.database insert
 void database_insert(vector<string>* v, string name)
-{	
+{//Adds a string to database
 		(*v).push_back(name);	
 }
 
 //Task.6.3.database search
 void database_search(const vector<string>* v, string name)
-{
+{//Searches through the database for all names starting with the given string, and prints them out.
 	for (auto e : *v)
 	{
 		if (!e.find(name))
@@ -174,8 +174,7 @@ void database_print(const vector<string>* v)
 
 //Task.6.6.database save
 void database_save(const vector<string>* v, string filename)
-{
-	//save to file
+{//Saves the database to a file with given name
 	ofstream myfile(filename);
 	if (myfile.is_open())
 	{
@@ -190,7 +189,9 @@ void database_save(const vector<string>* v, string filename)
 
 //Task.6.7.database load
 void database_load(vector<string>* v, string filename)
-{
+{//Loads a file of given name into database.
+	
+	//Choose to either add to, or replace database
 	cout << "Load " << filename << " as a new database or add it to current one? (new/add): ";
 	string input;
 	while (true)
@@ -209,7 +210,7 @@ void database_load(vector<string>* v, string filename)
 			cout << "\nInvalid input!\nTry again: ";
 	}
 
-	//load from file
+	//load lines from file
 	string line;
 	ifstream myfile(filename);
 	if (myfile.is_open())
@@ -236,12 +237,16 @@ void task1_input()
 //(Task 2: Average salaries) input
 void task2_input()
 {
+	//assign arraySize
 	int arraySize; 
 	cout << "how many employees? "; 
 	cin >> arraySize; 
 
-	const int** salArr = new const int*[arraySize];
+	//Initialize pointer and pointer array with size=arraySize
 	int* intArr = new int [arraySize];
+	const int** salArr = new const int*[arraySize];
+	
+	//Add pointers to pointer array
 	for (int i = 0; i < arraySize; ++i) 
 	{
 		cout << "Enter salary for employee no " << i+1 << ": "; cin >> intArr[i];
@@ -250,6 +255,7 @@ void task2_input()
 	int x= average_salary(salArr, arraySize);
 	cout << "\nAverage salary per person: " << x<<endl;
 	
+	//Deallocation unnecessary in function scope. Included for demonstration purpose.
 	delete[] salArr;
 	delete[] intArr;
 }
@@ -260,13 +266,16 @@ void task3_input()
 	cout << "Sort some numbers, ABC.\n";
 	while (true)
 	{
+		//input
 		cout << "\nGive a number A(0 to quit): "; int a; cin >> a;
 		if (a == 0)
 			break;
 		cout << "Give a number B: "; int b; cin >> b;
 		cout << "Give a number C: "; int c; cin >> c;
 		cout << "Sort ascending / descending(1 / 0) :"; bool d; cin >> d;
+		//function call
 		swap_sort(&a, &b, &c, d);
+		//print result
 		cout << "\nResult: " << a << b << c << "\n";
 	}
 }
@@ -274,6 +283,7 @@ void task3_input()
 //(Task 4: Swap sort with double pointers) input
 void task4_input()
 {
+	//testcode from assigment
 	int a = 7, b = 6, c = 1;
 	int* p1 = &a, * p2 = &b, * p3 = &c;
 	cout <<"before swap: "<< *p1 << " " << *p2 << " " << *p3;
@@ -288,8 +298,11 @@ void task5_input()
 	char SearchForMe = 104;//ASCII 104 = h
 	char ReplaceWithMe = 109;//ASCII 109 = m
 
+	//print string before function call
 	cout <<"before replacement: "<< str<<endl;
+	//function call
 	replace_chars(str, SearchForMe, ReplaceWithMe);
+	//print string after function call
 	cout << "after replacement: " << str<<endl;
 }
 
@@ -371,6 +384,7 @@ int main()
 {
 	bool loop = true;
 	int input;
+	//Main menu loop
 	while (loop)
 	{
 		cout << "\n1: Task 1. String length\n"
@@ -381,7 +395,7 @@ int main()
 			<< "6: Task 6. Modular vector database with pointers\n"
 			<< "0: Exit\n"
 			<< "\nInput: ";
-		if (cin >> input)
+		if (cin >> input)//input check
 		{
 			cout << endl;
 			switch (input)
@@ -415,6 +429,7 @@ int main()
 		}
 		else
 		{
+			// I don´t know how to do this properly.
 			cout << "invalid input!\n";
 			break;
 		}

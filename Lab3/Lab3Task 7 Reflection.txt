@@ -1,0 +1,27 @@
+
+-----------What did you learn? What did you know already?-----------
+
+I learned a bit about pointers, more specifically I learned about the use of pointers. 
+I find it much more difficult in practise, then in theory. 
+I feel I need some more practise to feel completely comfortable in how to use them properly, but this was a good step on the way.
+
+I learned a little bit about file IO, and was pleasantly surprised at the ease of implementing it.
+
+I also find that the repetiton of doing stuff you already "know" is very valuable in itself, 
+not only to solidify what you already know, but to expand on that knowledge.
+
+
+-----------What was difficult in the lab? How did you overcome it?-----------
+
+I had some syntactic problems with pointers in general, due to a lack of knowledge.
+I found task 2 to be the most difficult, probably due to the use of "doubble pointers".
+
+
+-----------How can the lab be improved?-----------
+
+I don´t wanna sound like a broken record, overall it was preyy good.
+
+
+-----------Additionally, write an estimate how many hours you spent on this lab.-----------
+
+6~7

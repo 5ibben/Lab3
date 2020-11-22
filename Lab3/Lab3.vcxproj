@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="Lab3.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Lab3Task 7 Reflection.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
