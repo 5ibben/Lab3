@@ -1,10 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-
+#include <string>
 
 using namespace std;
 
+
+#pragma region Task functions 1-5.
 //Task.1
 int strlen(char *s)
 {
@@ -114,26 +116,27 @@ void replace_chars(char* str, char search, char replacement)
 			*(str + i) = replacement;
 	}
 }
+#pragma endregion Task functions 1-5.
 
 
-
-//Task.6.1.initialize database
+#pragma region Task functions 6.
+//Task.6.1.database initialize
 void database_initialize(vector<string> *v)
 {
-	cout << "This will erase all names from database. Proceed?(y/n) : ";
+	cout << "This will erase all names from the current database. Proceed?(y/n) : ";
 	char c;
 	cin >> c;
 	if (c == *"y")
 		(*v).clear();
 }
 
-//Task.6.2.insert
+//Task.6.2.database insert
 void database_insert(vector<string>* v, string name)
 {	
 		(*v).push_back(name);	
 }
 
-//Task.6.3.search
+//Task.6.3.database search
 void database_search(const vector<string>* v, string name)
 {
 	for (auto e : *v)
@@ -146,7 +149,7 @@ void database_search(const vector<string>* v, string name)
 	cout << "\n";
 }
 
-//Task.6.4.delete
+//Task.6.4.database delete
 void database_delete(vector<string>* v, string name)
 {	//Makes a copy of the database(v) into vTemp, excluding all eventual positions where the given name is found.
 	vector<string> vTemp;
@@ -160,7 +163,7 @@ void database_delete(vector<string>* v, string name)
 	*v = vTemp;//assigns v to the new vector vTemp, which excludes the given name.
 }
 
-//Task.6.5.print
+//Task.6.5.database print
 void database_print(const vector<string>* v)
 {	//prints all elements of the database(vector v)
 	for (auto e : *v)
@@ -169,17 +172,129 @@ void database_print(const vector<string>* v)
 	}
 }
 
+//Task.6.6.database save
 void database_save(const vector<string>* v, string filename)
 {
 	//save to file
+	ofstream myfile(filename);
+	if (myfile.is_open())
+	{
+		for (auto e : *v)
+		{
+			myfile << e << endl;
+		}
+	}else
+		cout<<"\nUnable to open file\n";
+	myfile.close();
 }
 
-void database_load(const vector<string>* v, string filename)
+//Task.6.7.database load
+void database_load(vector<string>* v, string filename)
 {
+	cout << "Load " << filename << " as a new database or add it to current one? (new/add): ";
+	string input;
+	while (true)
+	{
+		cin >> input;
+		if (input == "new")
+		{
+			database_initialize(v);
+			break;
+		}
+		else if (input == "add")
+		{
+			break;
+		}
+		else
+			cout << "\nInvalid input!\nTry again: ";
+	}
+
 	//load from file
+	string line;
+	ifstream myfile(filename);
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			(*v).push_back(line);
+		}
+		myfile.close();
+	}
+	else cout << "\nUnable to open file\n";
+}
+#pragma endregion Task functions 6.
+
+
+#pragma region Input functions.
+//(Task 1: String length) input
+void task1_input()
+{
+	char arr[] = "computer";
+	cout <<"The Lenghts of the word "<<arr<<" is: "<< strlen(arr)<<endl;
 }
 
-void database()
+//(Task 2: Average salaries) input
+void task2_input()
+{
+	int arraySize; 
+	cout << "how many employees? "; 
+	cin >> arraySize; 
+
+	const int** salArr = new const int*[arraySize];
+	int* intArr = new int [arraySize];
+	for (int i = 0; i < arraySize; ++i) 
+	{
+		cout << "Enter salary for employee no " << i+1 << ": "; cin >> intArr[i];
+		salArr[i] = &intArr[i];
+	}
+	int x= average_salary(salArr, arraySize);
+	cout << "\nAverage salary per person: " << x<<endl;
+	
+	delete[] salArr;
+	delete[] intArr;
+}
+
+//(Task 3: Swap sort with pointers) input
+void task3_input()
+{
+	cout << "Sort some numbers, ABC.\n";
+	while (true)
+	{
+		cout << "\nGive a number A(0 to quit): "; int a; cin >> a;
+		if (a == 0)
+			break;
+		cout << "Give a number B: "; int b; cin >> b;
+		cout << "Give a number C: "; int c; cin >> c;
+		cout << "Sort ascending / descending(1 / 0) :"; bool d; cin >> d;
+		swap_sort(&a, &b, &c, d);
+		cout << "\nResult: " << a << b << c << "\n";
+	}
+}
+
+//(Task 4: Swap sort with double pointers) input
+void task4_input()
+{
+	int a = 7, b = 6, c = 1;
+	int* p1 = &a, * p2 = &b, * p3 = &c;
+	cout <<"before swap: "<< *p1 << " " << *p2 << " " << *p3;
+	swap_sort_ptr_addr(&p1, &p2, &p3, true);
+	cout << "\nafter swap: " << *p1 << " " << *p2 << " " << *p3<<"\n\n";
+}
+
+//(Task 5: Character replacement with pointers) input
+void task5_input()
+{
+	char str[] = "Herrens hus!";
+	char SearchForMe = 104;//ASCII 104 = h
+	char ReplaceWithMe = 109;//ASCII 109 = m
+
+	cout <<"before replacement: "<< str<<endl;
+	replace_chars(str, SearchForMe, ReplaceWithMe);
+	cout << "after replacement: " << str<<endl;
+}
+
+//(Task 6: Modular vector database with pointers) input
+void  task6_input()
 {
 	vector<string> v;// this is the actual database
 	string name;
@@ -249,93 +364,59 @@ void database()
 		}
 	}
 }
-
-
+#pragma endregion Input functions.
 
 
 int main()
-{/*
-	//(Task 1: String length) input
-	char arr[] = "computer";
-	cout <<"The Lenghts of the word "<<arr<<" is: "<< strlen(arr)<<endl;
-
-	
-	//(Task 2: Average salaries) input
-	int arraySize; 
-	cout << "\nhow many employees? "; 
-	cin >> arraySize; 
-
-	const int** salArr = new const int*[arraySize];
-	int* intArr = new int [arraySize];
-	for (int i = 0; i < arraySize; ++i) 
+{
+	bool loop = true;
+	int input;
+	while (loop)
 	{
-		cout << "Enter salary for employee no " << i+1 << ": "; cin >> intArr[i];
-		salArr[i] = &intArr[i];
-	}
-	int x= average_salary(salArr, arraySize);
-	cout << "\nAverage salary per person: " << x<<endl;
-	
-	delete[] salArr;
-	delete[] intArr;
-	
-
-
-	//(Task 3: Swap sort with pointers) input
-	cout << "\nSort some numbers, ABC.\n";
-	while (true)
-	{
-		cout << "\nGive a number A(0 to quit): "; int a; cin >> a;
-		if (a == 0)
+		cout << "\n1: Task 1. String length\n"
+			<< "2: Task 2. Average salaries\n"
+			<< "3: Task 3. Swap sort with pointers\n"
+			<< "4: Task 4. Swap sort with double pointers\n"
+			<< "5: Task 5. Character replacement with pointers\n"
+			<< "6: Task 6. Modular vector database with pointers\n"
+			<< "0: Exit\n"
+			<< "\nInput: ";
+		if (cin >> input)
+		{
+			cout << endl;
+			switch (input)
+			{
+				case 1:
+					task1_input();
+					break;
+				case 2:
+					task2_input();
+					break;
+				case 3:
+					task3_input();
+					break;
+				case 4:
+					task4_input();
+					break;
+				case 5:
+					task5_input();
+					break;
+				case 6:
+					task6_input();
+					break;
+				case 0:
+					loop = false;
+					cout << "\nGood bye!\n";
+					break;
+				default:
+					cout << "invalid number!\n";
+					break;
+			}
+		}
+		else
+		{
+			cout << "invalid input!\n";
 			break;
-		cout << "Give a number B: "; int b; cin >> b;
-		cout << "Give a number C: "; int c; cin >> c;
-		cout << "Sort ascending / descending(1 / 0) :"; bool d; cin >> d;
-		swap_sort(&a, &b, &c, d);
-		cout << "\nResult: " << a << b << c << "\n";
+		}
 	}
-
-	
-	//(Task 4: Swap sort with double pointers) input
-	int a = 7, b = 6, c = 1;
-	int* p1 = &a, * p2 = &b, * p3 = &c;
-	cout <<"\nbefore swap: "<< *p1 << " " << *p2 << " " << *p3;    // Points "1 6 7"
-	swap_sort_ptr_addr(&p1, &p2, &p3, true);
-	cout << "\nafter swap: " << *p1 << " " << *p2 << " " << *p3<<"\n\n";    // Points "1 6 7"
-	
-
-
-	//(Task 5: Character replacement with pointers) input
-	char str[] = "Herrens hus!";
-	char SearchForMe = 104;//ASCII 104 = h
-	char ReplaceWithMe = 109;//ASCII 109 = m
-
-	cout <<"before replacement: "<< str<<endl;
-	replace_chars(str, SearchForMe, ReplaceWithMe);
-	cout << "after replacement: " << str<<endl;
-
-	*/
-
-
-	//(Task 6: Modular vector database with pointers)
-
-
-
-	//database()
-	string filename = "testiclefile1.txt";
-	ofstream myfile;
-	myfile.open(filename);
-	myfile << "Writing this to a file.\n";
-	myfile.close();
-
-
-	
-	char u = 254;
-	char e = 255;
-	cout << "  A B C D E\n";
-	cout << "1 " << u << " " << u << " " << u << " " << u << " " << u << " \n";
-	cout << "2 " << u << " " << 3 << " " << 2 << " " << u << " " << u << " \n";
-	cout << "3 " << 1 << " " << e << " " << 1 << " " << 1 << " " << u << " \n";
-	cout << "4 " << u << " " << 2 << " " << e << " " << 2 << " " << u << " \n";
-	cout << "5 " << u << " " << u << " " << 2 << " " << 3 << " " << u << " \n";
-	cout << "6 " << u << " " << u << " " << u << " " << u << " " << u << " \n";
 }
